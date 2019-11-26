@@ -1,20 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace MeetupBooking.WebApi.Models.Meetup
 {
-    public class MeetupCreateModel
+    public class MeetupViewModel
     {
-        [Required]
-        [MinLength(4)]
         public string Name { get; set; }
 
-        [Required]
-        [MinLength(10)]
         public string Description { get; set; }
 
-        [Required]
-        public ICollection<BookingModel> Bookings { get; set; }
+        public int OwnerId { get; set; }
+
+        public ICollection<int> Rooms { get; set; }
 
         public ICollection<int> Participants { get; set; }
     }

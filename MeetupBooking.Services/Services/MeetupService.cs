@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MeetupBooking.Common.Interfaces;
 using MeetupBooking.DAL.Interfaces;
@@ -25,7 +28,7 @@ namespace MeetupBooking.Services.Services
 
             var newMeetup = await _unitOfWork.MeetupRepository.CreateAsync(meetup);
 
-            await BookRoom(newMeetup, meetupDto.RoomsId);
+            await BookRoom(newMeetup, meetupDto.Bookings);
             await InviteParticipants(newMeetup, meetupDto.Participants);
 
             await _unitOfWork.SaveAsync();
@@ -40,9 +43,24 @@ namespace MeetupBooking.Services.Services
             await _unitOfWork.SaveAsync();
         }
 
+        public  Task<IEnumerable<Meetup>> Find(Expression<Func<Meetup, bool>> filter)
+        {
+            return _unitOfWork.MeetupRepository
+                .GetAsync(filter,
+                          null,
+                          null,
+                          null,
+                          x => x.Participants,
+                          x => x.Owner);
+        }
+
         public Task<Meetup> Get(int id)
         {
-            return _unitOfWork.MeetupRepository.GetAsync(id);
+            return _unitOfWork.MeetupRepository
+                .FirstOrDefaultAsync(x => x.Id == id,
+                                     null,
+                                     x => x.Rooms,
+                                     x => x.Participants);
         }
 
         public async Task UpdateAsync(Meetup meetup)
@@ -52,18 +70,22 @@ namespace MeetupBooking.Services.Services
             await _unitOfWork.SaveAsync();
         }
 
-        private async Task BookRoom(Meetup meetup, ICollection<int> RoomsId)
+        private async Task BookRoom(Meetup meetup, ICollection<BookingDto> bookings)
         {
-            var rooms = await _unitOfWork.RoomRepository.GetAsync(room => RoomsId.Contains(room.Id));
+            var rooms = await _unitOfWork.RoomRepository.GetAsync(room => bookings.Select(booking => booking.RoomId).Contains(room.Id));
 
             foreach(var room in rooms)
             {
+                var booking = bookings.FirstOrDefault(book => book.RoomId == room.Id);
+
                 await _unitOfWork.BookingRepository.CreateAsync(new Booking
                 {
                     Meetup = meetup,
                     MeetupId = meetup.Id,
                     Room = room,
-                    RoomId = room.Id
+                    RoomId = room.Id,
+                    DateFrom = booking.DateFrom,
+                    DateTo = booking.DateTo
                 });
             }
         }

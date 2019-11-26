@@ -61,7 +61,7 @@ namespace MeetupBooking.DAL.Repository
 
         public  virtual Task<TEntity> GetAsync(int id)
         {
-            return EntitySet.FindAsync();
+            return EntitySet.FindAsync(id);
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filters = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null, int? skip = null, int? take = null, params Expression<Func<TEntity, object>>[] includes)

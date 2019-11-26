@@ -1,4 +1,6 @@
-﻿namespace MeetupBooking.Domain.Entities
+﻿using System;
+
+namespace MeetupBooking.Domain.Entities
 {
     public class Booking : BaseEntity
     {
@@ -9,5 +11,9 @@
         public int MeetupId { get; set; }
 
         public Meetup Meetup { get; set; }
+
+        public DateTime DateFrom { get; set; }
+
+        public DateTime DateTo { get; set; }
     }
 }

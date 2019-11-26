@@ -9,6 +9,7 @@ namespace MeetupBooking.WebApi.Infrastructure.MapperProfiles
         public UserModelProfile()
         {
             CreateMap<RegisterModel, User>();
+            CreateMap<User, AccountViewModel>();
         }
     }
 }

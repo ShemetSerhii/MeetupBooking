@@ -1,4 +1,5 @@
 ﻿using MeetupBooking.Common.Interfaces;
+using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Interfaces;
 using MeetupBooking.Services.Models;
 using MeetupBooking.WebApi.Models.Meetup;
@@ -25,8 +26,13 @@ namespace MeetupBooking.WebApi.Controllers
         }
 
         [HttpGet]
-        public void GetMeetups()
+        public async Task<IActionResult> Get(int id)
         {
+            var meetup = await _meetupService.Get(id);
+
+            var meetupModel = _mapperService.Map<Meetup, MeetupViewModel>(meetup);
+
+            return Ok(meetupModel);
         }
 
         [HttpPost]

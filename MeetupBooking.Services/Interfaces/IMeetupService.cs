@@ -1,5 +1,8 @@
 ﻿using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MeetupBooking.Services.Interfaces
@@ -11,6 +14,8 @@ namespace MeetupBooking.Services.Interfaces
         Task UpdateAsync(Meetup meetup);
 
         Task<Meetup> Get(int id);
+
+        Task<IEnumerable<Meetup>> Find(Expression<Func<Meetup, bool>> filter);
 
         Task Delete(int id);
     }

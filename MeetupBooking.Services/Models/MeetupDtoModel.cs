@@ -9,7 +9,7 @@ namespace MeetupBooking.Services.Models
 
         public string Description { get; set; }
 
-        public ICollection<int> RoomsId { get; set; }
+        public ICollection<BookingDto> Bookings { get; set; }
 
         public ICollection<int> Participants { get; set; }
 
