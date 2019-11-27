@@ -28,6 +28,7 @@ namespace MeetupBooking.WebApi.Controllers
             _mappingService = mappingService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Details()
         {

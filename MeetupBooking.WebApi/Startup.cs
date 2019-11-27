@@ -34,7 +34,7 @@ namespace MeetupBooking.WebApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web API", Version = "v1" });
             });
 
             services.AddAutoMapperProfiles();

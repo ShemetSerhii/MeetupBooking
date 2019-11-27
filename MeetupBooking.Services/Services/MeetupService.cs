@@ -51,7 +51,8 @@ namespace MeetupBooking.Services.Services
                           null,
                           null,
                           x => x.Participants,
-                          x => x.Owner);
+                          x => x.Owner,
+                          x => x.Rooms);
         }
 
         public Task<Meetup> Get(int id)
@@ -60,7 +61,39 @@ namespace MeetupBooking.Services.Services
                 .FirstOrDefaultAsync(x => x.Id == id,
                                      null,
                                      x => x.Rooms,
-                                     x => x.Participants);
+                                     x => x.Participants,
+                                     x => x.Owner);
+        }
+
+        public Task<IEnumerable<Meetup>> GetAll()
+        {
+            return _unitOfWork.MeetupRepository
+                .GetAsync(null, 
+                          null, 
+                          null, 
+                          null,
+                          x => x.Rooms,
+                          x => x.Owner,
+                          x => x.Participants);
+        }
+
+        public async Task Invitate(int meetupId, int userId)
+        {
+            await _unitOfWork.ParticipantRepository.CreateAsync(new Participant
+            {
+                MeetupId = meetupId,
+                UserId = userId
+            });
+
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task Invitate(int meetupId, int[] usersId)
+        {
+            foreach(var userId in usersId)
+            {
+               await Invitate(meetupId, usersId);
+            }
         }
 
         public async Task UpdateAsync(Meetup meetup)
