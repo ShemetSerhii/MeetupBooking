@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetupBooking.Domain", "Mee
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetupBooking.Infrastructure", "MeetupBooking.Infrastructure\MeetupBooking.Infrastructure.csproj", "{F6B27553-6DF0-4956-9D14-33C6AF280FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetupBooking.Common", "MeetupBooking.Common\MeetupBooking.Common.csproj", "{FCE6AAD0-5040-4A62-823D-6C49DC667B2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetupBooking.Common", "MeetupBooking.Common\MeetupBooking.Common.csproj", "{FCE6AAD0-5040-4A62-823D-6C49DC667B2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetupBooking.SynchronizingWebJob", "MeetupBooking.SynchronizingWebJob\MeetupBooking.SynchronizingWebJob.csproj", "{4D49AAEE-6CA7-417C-B7BA-1394247D311E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebJobs", "WebJobs", "{10F5C80B-6D22-4373-8D7B-03ED2B9DA816}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetupBooking.WebGrabberFramework", "MeetupBooking.WebRabberFramework\MeetupBooking.WebGrabberFramework.csproj", "{750FF6F9-C830-4F10-95EC-6F1558F65B76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +51,21 @@ Global
 		{FCE6AAD0-5040-4A62-823D-6C49DC667B2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE6AAD0-5040-4A62-823D-6C49DC667B2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE6AAD0-5040-4A62-823D-6C49DC667B2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D49AAEE-6CA7-417C-B7BA-1394247D311E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D49AAEE-6CA7-417C-B7BA-1394247D311E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D49AAEE-6CA7-417C-B7BA-1394247D311E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D49AAEE-6CA7-417C-B7BA-1394247D311E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{750FF6F9-C830-4F10-95EC-6F1558F65B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750FF6F9-C830-4F10-95EC-6F1558F65B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750FF6F9-C830-4F10-95EC-6F1558F65B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750FF6F9-C830-4F10-95EC-6F1558F65B76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4D49AAEE-6CA7-417C-B7BA-1394247D311E} = {10F5C80B-6D22-4373-8D7B-03ED2B9DA816}
+		{750FF6F9-C830-4F10-95EC-6F1558F65B76} = {10F5C80B-6D22-4373-8D7B-03ED2B9DA816}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8846F1D6-DB8F-499F-A2DA-23E60FB6C552}
