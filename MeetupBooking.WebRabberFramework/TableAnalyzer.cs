@@ -27,7 +27,7 @@ namespace MeetupBooking.WebGrabberFramework
 
             timer.Stop();
 
-            send($"Analyzing finished, lecture count: {_results.Count}. Elapsed time: {timer.ElapsedMilliseconds * 1000} sec");
+            send($"Analyzing finished, lecture count: {_results.Count}. Elapsed time: {timer.ElapsedMilliseconds / 1000} sec");
 
             return _results;
         }
