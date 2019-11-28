@@ -1,5 +1,6 @@
 ﻿using MeetupBooking.WebGrabberFramework;
 using System.Threading.Tasks;
+using static MeetupBooking.WebGrabberFramework.TableAnalyzer;
 
 namespace MeetupBooking.SynchronizingWebJob
 {
@@ -13,19 +14,19 @@ namespace MeetupBooking.SynchronizingWebJob
             grabber = new WebGrabber();
         }
 
-        public async Task Start()
+        public async Task Start(Send send)
         {
             grabber.NavigateTo(_startUrl);
             grabber.FindTable();
 
-            await Synchronize();
+            await Synchronize(send);
         }
 
-        private async Task Synchronize()
+        private async Task Synchronize(Send send)
         {
             var links = grabber.GetLinks();
 
-            await grabber.OpenSheduleByLink(links);
+            await grabber.OpenSheduleByLink(links, send);
         }
     }
 }

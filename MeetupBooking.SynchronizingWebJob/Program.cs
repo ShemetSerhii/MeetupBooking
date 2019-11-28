@@ -11,7 +11,12 @@ namespace MeetupBooking.SynchronizingWebJob
 
             var sync = new Synchronizer();
 
-            Task.WaitAll(sync.Start());
+            Task.WaitAll(sync.Start(Send));
+        }
+
+        public static void Send(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

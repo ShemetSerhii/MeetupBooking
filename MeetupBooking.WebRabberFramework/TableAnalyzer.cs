@@ -1,7 +1,7 @@
 ﻿using MeetupBooking.WebGrabberFramework.Models;
 using OpenQA.Selenium;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MeetupBooking.WebGrabberFramework
 {
@@ -11,16 +11,23 @@ namespace MeetupBooking.WebGrabberFramework
         private IList<IWebElement> _tdsHeader;
         private IList<ResultModel> _results;
 
+        public delegate void Send(string message);
+
         public TableAnalyzer(IWebDriver driver)
         {
             _driver = driver;
             _results = new List<ResultModel>();
         }
 
-        public IEnumerable<ResultModel> Process()
-        {   
+        public IEnumerable<ResultModel> Process(Send send)
+        {
+            var timer = Stopwatch.StartNew();
+
             Analyzing();
 
+            timer.Stop();
+
+            send($"Analyzing finished, lecture count: {_results.Count}. Elapsed time: {timer.ElapsedMilliseconds * 1000} sec");
 
             return _results;
         }

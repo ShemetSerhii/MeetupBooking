@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static MeetupBooking.WebGrabberFramework.TableAnalyzer;
 
 namespace MeetupBooking.WebGrabberFramework
 {
@@ -46,15 +47,17 @@ namespace MeetupBooking.WebGrabberFramework
             return table.FindElements(By.TagName("a"));
         }
 
-        public async Task OpenSheduleByLink(IEnumerable<IWebElement> links)
+        public async Task OpenSheduleByLink(IEnumerable<IWebElement> links, Send send)
         {
             foreach (var link in links)
             {
-                await OpenSheduleByLink(link);
+                send($"Start analyzing room {link.Text}");
+
+                await OpenSheduleByLink(link, send);
             }
         }
 
-        private async Task OpenSheduleByLink(IWebElement link)
+        private async Task OpenSheduleByLink(IWebElement link, Send send)
         {
             link.Click();
 
@@ -69,7 +72,7 @@ namespace MeetupBooking.WebGrabberFramework
 
             var tableAnalyzer = new TableAnalyzer(_driver);
 
-            var results = tableAnalyzer.Process();
+            var results = tableAnalyzer.Process(send);
 
             _driver.Close();
 
