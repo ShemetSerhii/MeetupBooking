@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MeetupBooking.WebApi.Models.Meetup
 {
-    public class MeetupViewModel
+    public class MeetupViewModelList
     {
         public int Id { get; set; }
 
@@ -13,7 +13,7 @@ namespace MeetupBooking.WebApi.Models.Meetup
 
         public int OwnerId { get; set; }
 
-        public IEnumerable<BookingViewModel> Rooms { get; set; }
+        public IEnumerable<int> Rooms { get; set; }
 
         public IEnumerable<int> Participants { get; set; }
     }

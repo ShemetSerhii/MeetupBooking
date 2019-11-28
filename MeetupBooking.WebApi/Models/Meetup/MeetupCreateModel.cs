@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MeetupBooking.WebApi.Models.Booking;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MeetupBooking.WebApi.Models.Meetup

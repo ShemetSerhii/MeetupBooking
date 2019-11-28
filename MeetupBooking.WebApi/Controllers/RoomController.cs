@@ -2,7 +2,7 @@
 using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Interfaces;
 using MeetupBooking.Services.Models;
-using MeetupBooking.WebApi.Models.Meetup;
+using MeetupBooking.WebApi.Models.Booking;
 using MeetupBooking.WebApi.Models.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,10 +50,6 @@ namespace MeetupBooking.WebApi.Controllers
 
             return Forbid();
         }
-
-        [HttpPut]
-        public void EditBooking()
-        { }
 
         [HttpDelete]
         public async Task<IActionResult> CancelBooking(int roomId, int meetupId)

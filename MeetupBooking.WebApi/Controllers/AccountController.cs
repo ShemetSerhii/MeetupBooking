@@ -46,7 +46,7 @@ namespace MeetupBooking.WebApi.Controllers
             return Ok(viewModel);
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task Login(LoginModel model)
         {
            var user = await _userService.GetUser(model.Email, model.Password);
@@ -54,7 +54,7 @@ namespace MeetupBooking.WebApi.Controllers
             await Authenticate(user);           
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
             var user = _mappingService.Map<RegisterModel, User>(model);
@@ -65,12 +65,13 @@ namespace MeetupBooking.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpPut("/edit")]
-        public async Task<IActionResult> Edit(int id, RegisterModel model)
+        [HttpPut]
+        public async Task<IActionResult> Edit( RegisterModel model)
         {
             var user = _mappingService.Map<RegisterModel, User>(model);
 
-            user.Id = id;
+            var us = await _userService.GetUser(User.Identity.Name);
+            user.Id = us.Id;
 
             await _userService.Update(user);
 

@@ -22,9 +22,14 @@ namespace MeetupBooking.Services.Services
             _mappingService = mappingService;
         }
 
-        public async Task CreateAsync(MeetupDtoModel meetupDto)
+        public async Task CreateAsync(MeetupDtoModel meetupDto, string email)
         {
             var meetup = _mappingService.Map<MeetupDtoModel, Meetup>(meetupDto);
+
+            var user = await _unitOfWork.UserRepository.FirstOrDefaultAsync(u => u.Email == email); 
+
+            meetup.OwnerId = user.Id;
+            meetup.Owner = user;
 
             var newMeetup = await _unitOfWork.MeetupRepository.CreateAsync(meetup);
 
@@ -75,6 +80,16 @@ namespace MeetupBooking.Services.Services
                           x => x.Rooms,
                           x => x.Owner,
                           x => x.Participants);
+        }
+
+        public Task<IEnumerable<Booking>> GetBookings(int meetupId)
+        {
+            return _unitOfWork.BookingRepository
+                .GetAsync(b => b.MeetupId == meetupId,
+                          null,
+                          null,
+                          null,
+                          b => b.Room);
         }
 
         public async Task Invitate(int meetupId, int userId)
