@@ -2,7 +2,6 @@
 using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Models;
 using MeetupBooking.WebApi.Models.Meetup;
-using System.Linq;
 
 namespace MeetupBooking.WebApi.Infrastructure.MapperProfiles
 {
@@ -15,8 +14,9 @@ namespace MeetupBooking.WebApi.Infrastructure.MapperProfiles
                 .ForMember(m => m.Participants, m => m.Ignore());
             CreateMap<BookingModel, BookingDto>();
             CreateMap<Meetup, MeetupViewModel>()
-                .ForMember(m => m.Rooms, m => m.MapFrom(x => x.Rooms.Select(r => r.RoomId)))
-                .ForMember(m => m.Participants, m => m.MapFrom(x => x.Participants.Select(r => r.UserId)));
+                .ForMember(m => m.Participants, m => m.Ignore())
+                .ForMember(m => m.Rooms, m => m.Ignore())
+                .ForMember(m => m.OwnerName, m => m.MapFrom(x => $"{x.Owner.FirstName} {x.Owner.LastName}"));
         }
     }
 }

@@ -77,6 +77,30 @@ namespace MeetupBooking.Services.Services
                           x => x.Participants);
         }
 
+        public async Task<IEnumerable<User>> GetParticipants(int meetupId)
+        {
+            var users = await _unitOfWork.ParticipantRepository
+                .GetAsync(x => x.MeetupId == meetupId,
+                          null,
+                          null,
+                          null,
+                          x => x.User);
+            
+            return users.Select(x => x.User);
+        }
+
+        public async Task<IEnumerable<Room>> GetRooms(int meetupId)
+        {
+            var rooms = await _unitOfWork.BookingRepository
+                .GetAsync(x => x.MeetupId == meetupId,
+                          null,
+                          null,
+                          null,
+                          x => x.Room);
+
+            return rooms.Select(x => x.Room);
+        }
+
         public async Task Invitate(int meetupId, int userId)
         {
             await _unitOfWork.ParticipantRepository.CreateAsync(new Participant

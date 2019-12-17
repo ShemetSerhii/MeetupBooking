@@ -30,6 +30,11 @@ namespace MeetupBooking.Services.Services
             return user;
         }
 
+        public  Task<User> GetUser(int id)
+        {
+            return _unitOfWork.UserRepository.GetAsync(id);
+        }
+
         public async Task Register(User user)
         {
             await ValidateEmail(user.Email);

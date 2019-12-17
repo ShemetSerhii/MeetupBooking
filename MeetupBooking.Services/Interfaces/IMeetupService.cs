@@ -13,6 +13,10 @@ namespace MeetupBooking.Services.Interfaces
 
         Task UpdateAsync(Meetup meetup);
 
+        Task<IEnumerable<User>> GetParticipants(int meetupId);
+
+        Task<IEnumerable<Room>> GetRooms(int meetupId);
+
         Task<Meetup> Get(int id);
 
         Task<IEnumerable<Meetup>> GetAll();

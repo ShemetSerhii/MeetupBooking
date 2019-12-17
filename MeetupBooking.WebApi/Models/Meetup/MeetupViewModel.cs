@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MeetupBooking.WebApi.Models.Room;
+using System.Collections.Generic;
 
 namespace MeetupBooking.WebApi.Models.Meetup
 {
@@ -10,10 +11,10 @@ namespace MeetupBooking.WebApi.Models.Meetup
 
         public string Description { get; set; }
 
-        public int OwnerId { get; set; }
+        public string OwnerName { get; set; }
 
-        public ICollection<int> Rooms { get; set; }
+        public ICollection<RoomViewModel> Rooms { get; set; }
 
-        public ICollection<int> Participants { get; set; }
+        public ICollection<ParticipantViewModel> Participants { get; set; }
     }
 }

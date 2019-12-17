@@ -38,6 +38,18 @@ namespace MeetupBooking.WebApi
             });
 
             services.AddAutoMapperProfiles();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                .WithOrigins("http://localhost:4200")
+                .WithOrigins("http://smartcarewebstatic.z22.web.core.windows.net")
+                .WithOrigins("https://localhost:4200")
+                .WithOrigins("https://smartcarewebstatic.z22.web.core.windows.net")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            });
+
 
             var container = services.SetupConfigurationContainer();
 
@@ -57,6 +69,7 @@ namespace MeetupBooking.WebApi
                 app.UseHsts();
             }
             app.UseAuthentication();
+            app.UseCors("CorsPolicy");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

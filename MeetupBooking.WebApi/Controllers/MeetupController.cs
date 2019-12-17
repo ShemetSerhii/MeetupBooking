@@ -3,9 +3,11 @@ using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Interfaces;
 using MeetupBooking.Services.Models;
 using MeetupBooking.WebApi.Models.Meetup;
+using MeetupBooking.WebApi.Models.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MeetupBooking.WebApi.Controllers
@@ -46,6 +48,9 @@ namespace MeetupBooking.WebApi.Controllers
             if (meetup == null) return NotFound();
 
             var meetupModel = _mapperService.Map<Meetup, MeetupViewModel>(meetup);
+
+            meetupModel.Participants = (await _meetupService.GetParticipants(id)).Select(x => new ParticipantViewModel { Id = x.Id, Name = $"{x.FirstName} {x.LastName}" }).ToList();
+            meetupModel.Rooms = (await _meetupService.GetRooms(id)).Select(x => new RoomViewModel { Id = x.Id, Name = x.Name }).ToList();
 
             return Ok(meetupModel);
         }

@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 namespace MeetupBooking.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class RoomController : ControllerBase
     {
@@ -40,15 +39,14 @@ namespace MeetupBooking.WebApi.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Book(int meetupId, BookingModel model)
-        { 
-            if (await IsOwner(meetupId))
-            {
-                var booking = _mappingService.Map<BookingModel, BookingDto>(model);
+        {
 
-                return Ok();
-            }
+            var booking = _mappingService.Map<BookingModel, BookingDto>(model);
 
-            return Forbid();
+            await _roomService.Book(meetupId, booking);
+
+            return Ok();
+
         }
 
         [HttpPut]
@@ -56,16 +54,13 @@ namespace MeetupBooking.WebApi.Controllers
         { }
 
         [HttpDelete]
-        public async Task<IActionResult> CancelBooking(int roomId, int meetupId)
+        public async Task<IActionResult> CancelBooking([FromQuery] int roomId, [FromQuery]int meetupId)
         {
-            if (await IsOwner(meetupId))
-            {
+
                 await _roomService.CancelBooking(roomId, meetupId);
 
                 return Ok();
-            }
-
-            return Forbid();
+            
         }
 
         private async Task<bool> IsOwner(int meetupId)
