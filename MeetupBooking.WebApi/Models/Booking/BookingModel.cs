@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MeetupBooking.WebApi.Models.Meetup
+namespace MeetupBooking.WebApi.Models.Booking
 {
     public class BookingModel
     {

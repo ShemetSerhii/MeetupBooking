@@ -2,6 +2,7 @@
 using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Interfaces;
 using MeetupBooking.Services.Models;
+using MeetupBooking.WebApi.Models.Booking;
 using MeetupBooking.WebApi.Models.Meetup;
 using MeetupBooking.WebApi.Models.Room;
 using Microsoft.AspNetCore.Authorization;
@@ -18,13 +19,11 @@ namespace MeetupBooking.WebApi.Controllers
     public class MeetupController : ControllerBase
     {
         private readonly IMeetupService _meetupService;
-        private readonly IUserService _userService;
         private readonly IMappingService _mapperService; 
 
-        public MeetupController(IMeetupService meetupService, IUserService userService, IMappingService mappingService)
+        public MeetupController(IMeetupService meetupService, IMappingService mappingService)
         {
             _meetupService = meetupService;
-            _userService = userService;
             _mapperService = mappingService;
         }
 
@@ -34,7 +33,7 @@ namespace MeetupBooking.WebApi.Controllers
         {
             var meetups = await _meetupService.GetAll();
 
-            var meetupModel = _mapperService.Map<IEnumerable<Meetup>, List<MeetupViewModel>>(meetups);
+            var meetupModel = _mapperService.Map<IEnumerable<Meetup>, List<MeetupViewModelList>>(meetups);
 
             return Ok(meetupModel);
         }
@@ -44,10 +43,14 @@ namespace MeetupBooking.WebApi.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var meetup = await _meetupService.Get(id);
+            var bookings = await _meetupService.GetBookings(id);
 
             if (meetup == null) return NotFound();
 
             var meetupModel = _mapperService.Map<Meetup, MeetupViewModel>(meetup);
+            var bookingsModel = _mapperService.Map<IEnumerable<Booking>, List<BookingViewModel>>(bookings);
+
+            meetupModel.Rooms = bookingsModel;
 
             meetupModel.Participants = (await _meetupService.GetParticipants(id)).Select(x => new ParticipantViewModel { Id = x.Id, Name = $"{x.FirstName} {x.LastName}" }).ToList();
             meetupModel.Rooms = (await _meetupService.GetRooms(id)).Select(x => new RoomViewModel { Id = x.Id, Name = x.Name }).ToList();
@@ -82,12 +85,7 @@ namespace MeetupBooking.WebApi.Controllers
         {
             var meetup = _mapperService.Map<MeetupCreateModel, MeetupDtoModel>(model);
 
-            var user = await _userService.GetUser(User.Identity.Name);
-
-            meetup.OwnerId = user.Id;
-            meetup.Owner = user;
-
-            await _meetupService.CreateAsync(meetup);
+            await _meetupService.CreateAsync(meetup, User.Identity.Name);
 
             return Ok();
         }
