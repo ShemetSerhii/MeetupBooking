@@ -1,7 +1,87 @@
 <div style="width: 100%;">
 
 <div>
-    <a routerLink="/create" class="nav-link">Добавить</a>
+  <button type="button" class="btn btn-secondary m-3" data-toggle="modal" data-target="#myModal">
+    Організувати
+  </button>
+</div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Організація заходу</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Назва заходу">
+          </div>
+          <div class="input-group mb-3">
+            <textarea class="form-control" rows="3" id="comment" placeholder="Опис заходу"></textarea>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-secondary m-2" data-toggle="collapse" data-target="#prec">Добавити учасників</button>
+          </div>
+          <div id="prec" class="collapse">
+            <div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">Іванов Денис
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">Петров Андрій
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="" >Денисов Артем
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-secondary m-2" data-toggle="collapse" data-target="#roo">Добавити аудиторії</button>
+          </div>
+          <div id="roo" class="collapse">
+            <div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">102 i
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="">103 i
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="" >104 i
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Організувати</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Відмінити</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <div class="row">
@@ -16,17 +96,17 @@
         <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
             <div class="content border border-dark p-2">
                 <h1 class="text-center">{{meet.name}}</h1>
-                <h4>Owner: {{meet.ownerName}}</h4>
-                <h5>Description: {{meet.description}}</h5>
+                <h4>Організатор: {{meet.ownerName}}</h4>
+                <h5>Опис: {{meet.description}}</h5>
                 <div class="text-center">
-                    <button type="button" data-toggle="collapse" data-target="#participant" class="btn btn-secondary">Participants</button>
+                    <button type="button" data-toggle="collapse" data-target="#participant" class="btn btn-secondary">Учасники</button>
                     <div id="participant" class="collapse">
                         <table class="table table-bordered mt-2">
                             <tbody>
                                 <tr *ngFor="let p of meet.participants">
                                     <td>{{p.name}}</td>
                                     <td>
-                                      <button type="button" class="btn btn-danger" (click)="Kick(p.id)">Kick out</button>
+                                      <button type="button" class="btn btn-danger" (click)="Kick(p.id)">Вигнати</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -34,14 +114,14 @@
                     </div>
                 </div>
                 <div class="text-center">
-                  <button type="button" data-toggle="collapse" data-target="#room" class="btn btn-secondary mt-2">Rooms</button>
+                  <button type="button" data-toggle="collapse" data-target="#room" class="btn btn-secondary mt-2">Аудиторії</button>
                   <div id="room" class="collapse">
                       <table class="table table-bordered mt-2">
                           <tbody>
                               <tr *ngFor="let m of meet.rooms">
                                   <td>{{m.name}}</td>
                                   <td>
-                                    <button type="button" class="btn btn-danger" (click)="Cancel(m.id)">Cancel Booking</button>
+                                    <button type="button" class="btn btn-danger" (click)="Cancel(m.id)">Відмінити бронювання</button>
                                   </td>
                               </tr>
                           </tbody>
