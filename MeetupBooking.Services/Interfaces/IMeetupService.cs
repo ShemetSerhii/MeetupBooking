@@ -9,7 +9,7 @@ namespace MeetupBooking.Services.Interfaces
 {
     public interface IMeetupService
     {
-        Task CreateAsync(MeetupDtoModel meetup, string user);
+        Task CreateAsync(MeetupDtoModel meetup);
 
         Task UpdateAsync(Meetup meetup);
 
@@ -20,9 +20,7 @@ namespace MeetupBooking.Services.Interfaces
         Task<Meetup> Get(int id);
 
         Task<IEnumerable<Meetup>> GetAll();
-
-        Task<IEnumerable<Booking>> GetBookings(int meetupId);
-
+        
         Task<IEnumerable<Meetup>> Find(Expression<Func<Meetup, bool>> filter);
 
         Task Delete(int id);

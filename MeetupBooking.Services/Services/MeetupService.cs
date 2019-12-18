@@ -116,7 +116,7 @@ namespace MeetupBooking.Services.Services
         {
             foreach(var userId in usersId)
             {
-               await Invitate(meetupId, usersId);
+               await Invitate(meetupId, userId);
             }
         }
 

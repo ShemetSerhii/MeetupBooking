@@ -19,12 +19,14 @@ namespace MeetupBooking.WebApi.Controllers
     public class MeetupController : ControllerBase
     {
         private readonly IMeetupService _meetupService;
-        private readonly IMappingService _mapperService; 
+        private readonly IMappingService _mapperService;
+        private readonly IUserService _userService;
 
-        public MeetupController(IMeetupService meetupService, IMappingService mappingService)
+        public MeetupController(IMeetupService meetupService, IMappingService mappingService, IUserService userService)
         {
             _meetupService = meetupService;
             _mapperService = mappingService;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -43,14 +45,9 @@ namespace MeetupBooking.WebApi.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var meetup = await _meetupService.Get(id);
-            var bookings = await _meetupService.GetBookings(id);
-
             if (meetup == null) return NotFound();
 
             var meetupModel = _mapperService.Map<Meetup, MeetupViewModel>(meetup);
-            var bookingsModel = _mapperService.Map<IEnumerable<Booking>, List<BookingViewModel>>(bookings);
-
-            meetupModel.Rooms = bookingsModel;
 
             meetupModel.Participants = (await _meetupService.GetParticipants(id)).Select(x => new ParticipantViewModel { Id = x.Id, Name = $"{x.FirstName} {x.LastName}" }).ToList();
             meetupModel.Rooms = (await _meetupService.GetRooms(id)).Select(x => new RoomViewModel { Id = x.Id, Name = x.Name }).ToList();
@@ -85,7 +82,12 @@ namespace MeetupBooking.WebApi.Controllers
         {
             var meetup = _mapperService.Map<MeetupCreateModel, MeetupDtoModel>(model);
 
-            await _meetupService.CreateAsync(meetup, User.Identity.Name);
+            var user = await _userService.GetUser(User.Identity.Name);
+
+            meetup.Owner = user;
+            meetup.OwnerId = user.Id;
+
+            await _meetupService.CreateAsync(meetup);
 
             return Ok();
         }

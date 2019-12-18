@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MeetupBooking.Domain.Entities;
 using MeetupBooking.Services.Models;
+using MeetupBooking.WebApi.Models.Booking;
 using MeetupBooking.WebApi.Models.Meetup;
 
 namespace MeetupBooking.WebApi.Infrastructure.MapperProfiles
